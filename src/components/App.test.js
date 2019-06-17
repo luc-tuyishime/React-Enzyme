@@ -40,4 +40,37 @@ describe('App', () => {
       ).toEqual('Submit');
     });
   });
+
+  // When the user type in the form
+  describe('when creating a note', () => {
+    let testNote = 'test  note is here';
+
+    // simulate a change event
+    beforeEach(() => {
+      app.find('FormControl').simulate('change', {
+        // we want our state to update with change value
+        target: { value: testNote }
+      });
+    });
+
+    it('should update a test in the state', () => {
+      expect(app.state().text).toEqual(testNote);
+    });
+
+    // When the user click on submit
+    describe('And submitting the new note', () => {
+      // simulate a click event
+      beforeEach(() => {
+        app
+          .find('.btn')
+          .at(0)
+          .simulate('click');
+      });
+
+      it('Add the new to state or update the state with new value', () => {
+        console.log(app.state());
+        expect(app.state().notes[0].text).toEqual(testNote);
+      });
+    });
+  });
 });
